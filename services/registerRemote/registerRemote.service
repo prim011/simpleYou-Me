@@ -1,0 +1,19 @@
+[Unit]
+Description=Register with remote.it with "hostname" as a device for SSH and VNC
+Wants=
+After=network-online.target
+
+[Service]
+## Use idle mode of this service: start afetr all other services have started 
+Type=idle
+ExecStart=/usr/local/bin/connectMe-You.sh
+
+StandardOutput=inherit
+StandardError=inherit
+#RemainAfterExit=no
+Restart=on-failure
+TimeoutStartSec=220
+RestartSec=220s
+
+[Install]
+WantedBy=multi-user.target

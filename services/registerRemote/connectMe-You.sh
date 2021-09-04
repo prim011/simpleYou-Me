@@ -37,17 +37,17 @@ if sudo remoteit register >&1 | grep -q "${okSymbol}"; then
 	echo "...registration was succesfull"
 else
 	echo "...soemthing went wrong during the registration"
-        echo "device maight be already registered under a different name: let's try to unregister and reregister"
+        echo "device might be already registered under a different name: let's try to unregister and reregister"
 	if sudo remoteit unregister --yes >&1 | grep -q "${okSymbol}"; then
 		if sudo remoteit register --name $HOSTNAME >&1 | grep -q "${failSymbol}"; then
-			echo "... something wnet wrong during re-registration of legacy name: need something drastic"
+			echo "... something went wrong during re-registration of legacy name: need something drastic"
               		sudo apt remove --yes remoteit
               		sudo apt-get install --yes remoteit
 		else
 			echo "registration succesfull under ${HOSTNAME}"
 		fi
 	else
-		echo "... something wnet wrong during deregistration of legacy name: need something drastic"
+		echo "... something went wrong during deregistration of legacy name: need something drastic"
                 sudo apt remove --yes remoteit
                 sudo apt-get install --yes remoteit
 	fi

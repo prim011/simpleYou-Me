@@ -1,0 +1,60 @@
+#!/usr/bin/env sh
+
+
+FILENAME=/usr/local/bin/auth
+
+failSymbol="×"
+
+# needed services are ssh and vnc with 
+# default ports 
+sshScr="ssh-AF"
+sshPortScr=20
+vncScr="vnc-AF"
+vncPortScr=5900
+
+echo "..check network connectivity"
+
+if ping -c 1 -W 5 google.com 1>/dev/null 2>&1 
+  then
+      echo -en '\E[47;32m'"\033[1mS\033[0m"
+      echo "Connected!"
+  else
+      echo -en '\E[47;31m'"\033[1mZ\033[0m"
+      echo "Not Connected!"
+      exit 1
+  fi
+
+echo "Authentication File Name: $FILENAME"
+ 
+# let's login first
+cat $FILENAME | xargs sudo remoteit signin
+
+# let's register this device
+if sudo remoteit register --name $hostname |grep $failSymbol; then
+	echo "... device is already registered"
+	sudo apt remove --yes remoteit
+	sudo apt-get install --yes remoteit
+else
+	echo "device now registered with " hostname
+fi
+
+# let's check on the services 
+if sudo remoteit remove |grep -q $sshScr; then
+	echo "service " $sshScr " already present"
+else
+	# let's add ssh as services (default port is 20)
+	sudo remoteit add --name $sshScr --port $sshPortScr --type ssh
+fi
+
+if sudo remoteit remove |grep -q $vncScr; then
+        echo "service " $vncScr " already present"
+else
+	# let's add vnc as a service (default port is 5900)
+	sudo remoteit add --name $vncScr --port $vncPortScr --type vnc
+fi
+
+# ... all done: let's logout
+sudo remoteit signout
+
+exit 0
+

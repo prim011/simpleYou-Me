@@ -1,0 +1,19 @@
+[Unit]
+Description=USB Modem configuration and Internet access
+Wants=
+After=network-online.target
+
+[Service]
+## Use forking type becuase of the AT command to be sent to the modem via wvdial command
+Type=simple
+ExecStart=/usr/local/bin/usbmodem.sh
+ExecStop=/usr/bin/killall -9 usbmodem
+
+StandardOutput=inherit
+StandardError=inherit
+#RemainAfterExit=no
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target

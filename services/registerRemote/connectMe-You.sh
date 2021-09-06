@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 
 
+# Script to connect and register the device with Remoteit
+#
+# The two services are SSH and VNC
+
 FILENAME=/usr/local/bin/auth
 
 okSymbol="✓"

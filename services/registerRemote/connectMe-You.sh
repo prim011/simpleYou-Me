@@ -3,6 +3,18 @@
 
 # Script to connect and register the device with Remoteit
 #
+# The script first check if internet connation is available by pinging
+# google.com. If no answer is returned there is no need to continue
+# and the script exit with an error, so that it can restart at a later
+# stage (see registerRemote.service and the "Restart=on-failure" option
+# and the "RestartSec" value).
+# The script extracts the Remoteit authentication information from an
+# external file (FILENAME); It then uses those to perfoms the following
+# actions:
+#
+#    1) Registering the device (in case it was the first time run)
+#    2) Once the device has been registered adding two services.
+#
 # The two services are SSH and VNC
 
 FILENAME=/usr/local/bin/auth

@@ -1,6 +1,6 @@
 # Copyrights(c) - Francesco Fiaschi
 
-Service for configuring the 4G/LTE USB modem
+## Service for configuring the 4G/LTE USB modem
 
 This script uses the Wvdial and other script to interact with the 4G/LTE USB
 modem.
